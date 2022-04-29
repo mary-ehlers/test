@@ -10,5 +10,7 @@ jobs:
   passing_test:
     runs-on: ubuntu-20.04
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
       - name: pass
         run: ls
