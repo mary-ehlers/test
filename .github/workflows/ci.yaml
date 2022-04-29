@@ -1,0 +1,12 @@
+---
+name: test github action behavior
+on:
+  push:
+  pull_request:
+
+jobs:
+  passing_test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: pass
+        run: echo "hello"
