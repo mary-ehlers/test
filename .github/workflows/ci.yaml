@@ -13,4 +13,4 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v3
       - name: pass
-        run: ls
+        run: ls README.md
