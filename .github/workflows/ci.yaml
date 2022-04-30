@@ -2,11 +2,15 @@
 name: test github action behavior
 on:
   push:
+    branches-ignore:
+      - main
   pull_request:
 
 jobs:
   passing_test:
     runs-on: ubuntu-20.04
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
       - name: pass
-        run: echo "hello"
+        run: ls README.md
