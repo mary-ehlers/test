@@ -61,3 +61,14 @@ Rebased to remove the last commit
 3: Force-pushed; passed; allowed merge.
 
 4: Merged PR
+
+==Fourth attempt==
+
+```
+on:
+  pull_request:
+```
+
+Action runs:
+1: Created PR
+
