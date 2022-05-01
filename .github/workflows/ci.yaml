@@ -1,7 +1,7 @@
 ---
 name: test github action behavior
 on:
-  push:
+  pull_request:
 
 jobs:
   passing_test:
