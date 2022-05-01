@@ -41,3 +41,34 @@ Closed PR.
 Repeated 4/5 for awhile until I got that working.  Moral: push to PR causes two runs of the action.
 
 Merging the PR, however did NOT cause a run.
+
+==Third attempt==
+
+```
+on:
+  push:
+```
+
+Action runs:
+1: Pushed branch
+
+Created a PR, which did not cause another action run.  PR included results of push's test, which was successful.  Allowed merge.
+
+2: Pushed a commit which added a purposefully failing test; disabled merge while CI ran, and prevented merge after CI failed.
+
+Rebased to remove the last commit
+
+3: Force-pushed; passed; allowed merge.
+
+4: Merged PR
+
+==Fourth attempt==
+
+```
+on:
+  pull_request:
+```
+
+Action runs:
+1: Created PR
+
