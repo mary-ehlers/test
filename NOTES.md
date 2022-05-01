@@ -1,4 +1,13 @@
-==First attempt==
+# Legend
+
+| Symbol | Meaning |
+| ---- | --- |
+| :heavy_check_mark: | Github Action triggered and succeeded |
+| :x: | Github Action triggered and failed |
+| :leftwards_arrow_with_hook: | Merge allowed |
+| :heavy_exclamation_mark: | Merge not allowed |
+
+# First attempt
 
 ```
 on:
@@ -6,12 +15,13 @@ on:
   pull_request:
 ```
 
-Action runs:
-1: Pushed branch
-2: Created PR
-3: Merged PR (pushed to main)
+| Event | Effects |
+| --- | --- |
+| Pushed branch | :heavy_check_mark: |
+| Created PR | :heavy_check_mark: :leftwards_arrow_with_hook: |
+| Merged PR | :heavy_check_mark: |
 
-==Second attempt==
+# Second attempt
 
 ```
 on:
@@ -21,54 +31,44 @@ on:
   pull_request:
 ```
 
-With a purposefully failing CI
+| Event | Effects |
+| --- | --- |
+| Pushed branch with a purposefully failing CI | :x: |
+| Created PR | :x: :leftwards_arrow_with_hook: |
+| Added branch protection rules | :heavy_exclamation_mark: |
+| Closed PR |  |
+| Reopened PR (no changes) | :x: :heavy_exclamation_mark: |
+| Pushed commit (not fixed) | push: :x: synchronize: :x: :heavy_exclamation_mark: |
+| Pushed commit (fixed) | push: :heavy_check_mark: synchronize: :heavy_check_mark: :leftwards_arrow_with_hook: |
+| Merged PR |  |
 
-Action runs:
-1: Pushed branch
-2: Created PR (did not prevent merge despite reporting failures)
+NOTE: Settings -> Branches -> Branch Protection Rules: had to know the job name (the key value under `job:` in the yaml) to start typing in the box in order for something to show up that was selectable.
 
-
-Added `passing_test` as a "required status check" (had to know the job name to type and select - lame).  This was under Settings -> Branches -> Branch protection rules.
-
-Then the PR refused to merge.
-
-Closed PR.
-
-3: Reopened PR (still failing - no changes made to correct yet)
-4: Pushed commit with README file
-5: Synchronized PR (still failing?)
-
-Repeated 4/5 for awhile until I got that working.  Moral: push to PR causes two runs of the action.
-
-Merging the PR, however did NOT cause a run.
-
-==Third attempt==
+# Third attempt
 
 ```
 on:
   push:
 ```
 
-Action runs:
-1: Pushed branch
+| Event | Effects |
+| --- | --- |
+| Pushed branch | :heavy_check_mark: |
+| Created PR | :leftwards_arrow_with_hook: |
+| Pushed commit to add purposefully failing test | :x: :heavy_exclamation_mark: |
+| Rebased to remove last commit; force pushed | :heavy_check_mark: :leftwards_arrow_with_hook: |
+| Merged PR | :heavy_check_mark: |
 
-Created a PR, which did not cause another action run.  PR included results of push's test, which was successful.  Allowed merge.
-
-2: Pushed a commit which added a purposefully failing test; disabled merge while CI ran, and prevented merge after CI failed.
-
-Rebased to remove the last commit
-
-3: Force-pushed; passed; allowed merge.
-
-4: Merged PR
-
-==Fourth attempt==
+# Fourth attempt
 
 ```
 on:
   pull_request:
 ```
 
-Action runs:
-1: Created PR
-
+| Event | Effects |
+| --- | --- |
+| Pushed branch |  |
+| Created PR | :heavy_check_mark: :leftwards_arrow_with_hook: |
+| Pushed additional commit | :heavy_check_mark: :leftwards_arrow_with_hook: |
+| Merged PR |  |
