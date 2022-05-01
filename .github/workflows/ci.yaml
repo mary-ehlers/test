@@ -2,9 +2,6 @@
 name: test github action behavior
 on:
   push:
-    branches-ignore:
-      - main
-  pull_request:
 
 jobs:
   passing_test:
